@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,8 @@ public class PlayerControlScript : MonoBehaviour
 {
 
     private float MoveSpeed = 10f;
+    private const float BaseFireRate = 0.8f;
+    private float FireRate = BaseFireRate;
     private Rigidbody2D RB;
     public WeaponScript Weapon;
 
@@ -22,6 +25,16 @@ public class PlayerControlScript : MonoBehaviour
     {
         RB.linearVelocity = MoveDirection * MoveSpeed;
         MouseDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+
+        if (Input.GetMouseButton(0) && FireRate > 1f)
+        {
+            Weapon.Fire();
+            FireRate = BaseFireRate;
+        }
+        else
+        {
+            FireRate = FireRate + Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
@@ -36,9 +49,4 @@ public class PlayerControlScript : MonoBehaviour
         MoveDirection = Value.Get<Vector2>().normalized;
     }
 
-    public void OnAttack(InputValue Value)
-    {
-        Weapon.Fire();
-
-    }
 }
