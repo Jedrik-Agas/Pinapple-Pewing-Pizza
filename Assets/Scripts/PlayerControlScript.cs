@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerControlScript : MonoBehaviour
 {
 
-    private float MoveSpeed = 12f;
+    private float MoveSpeed = 10f;
     private Rigidbody2D RB;
     public WeaponScript Weapon;
 
@@ -27,7 +27,7 @@ public class PlayerControlScript : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 Aim = MouseDirection - RB.position;
-        float Angle = Mathf.Atan2(Aim.x, Aim.y) * Mathf.Rad2Deg - 90f;
+        float Angle = Mathf.Atan2(Aim.y, Aim.x) * Mathf.Rad2Deg - 90f;
         RB.rotation = Angle;
     }
 
@@ -39,7 +39,6 @@ public class PlayerControlScript : MonoBehaviour
     public void OnAttack(InputValue Value)
     {
         Weapon.Fire();
+
     }
-
-
 }

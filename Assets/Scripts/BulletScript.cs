@@ -12,16 +12,18 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BTime = BTime + Time.deltaTime;
-
-        if (BTime == 5)
+        if (BTime > 3f)
         {
             Destroy(gameObject);
             BTime = 0f;
-        }   
+        }
+        else
+        {
+            BTime = BTime + Time.deltaTime;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
     }
