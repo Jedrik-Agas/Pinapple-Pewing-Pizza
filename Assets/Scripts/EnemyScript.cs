@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
     private Rigidbody2D RB;
     private float ESpeed = 5f;
     private float RotateSpeed = 1f;
+    public int Health = 2;
+    public int Damage = -1;
     public Transform Target;
 
     void Start()
@@ -38,12 +41,18 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-            Destroy(gameObject);
+            Health = Health -1;
+
+            if (Health <= 0)
+            {
+                Destroy(gameObject);
+            }
+              
         }
         if (other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
         }
     }
 }
