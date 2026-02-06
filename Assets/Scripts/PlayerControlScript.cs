@@ -7,7 +7,7 @@ public class PlayerControlScript : MonoBehaviour
 {
 
     private float MoveSpeed = 10f;
-    private const float BaseFireRate = 0.8f;
+    private const float BaseFireRate = 0.85f;
     private float FireRate = BaseFireRate;
     public const int MaxHealth = 3;
     public int Health = MaxHealth;

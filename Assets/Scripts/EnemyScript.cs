@@ -9,15 +9,19 @@ public class EnemyScript : MonoBehaviour
     public int Health = 2;
     public int Damage = -1;
     public Transform Target;
+    public SpriteRenderer SpriteRenderer;
+    public SpawnerScript Spawner;
 
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
+        Spawner= GameObject.FindAnyObjectByType<SpawnerScript>();
 
         if (GameObject.FindGameObjectWithTag("Player"))
         {
             Target = GameObject.FindGameObjectWithTag("Player").transform;
         }
+
     }
     void Update()
     {
@@ -41,11 +45,13 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
+            SpriteRenderer.color = new Color(1f, 0.64f, 0f, 1f);
             Health = Health -1;
-
+            
             if (Health <= 0)
             {
                 Destroy(gameObject);
+                Spawner.SetEnemiesLeft(-1);
             }
               
         }
@@ -53,6 +59,7 @@ public class EnemyScript : MonoBehaviour
         {
             Destroy(gameObject);
             other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
+            Spawner.SetEnemiesLeft(-1);
         }
     }
 }

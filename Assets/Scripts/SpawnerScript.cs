@@ -4,20 +4,33 @@ public class SpawnerScript : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     public float Radius = 1f;
-    public const float BaseSpawnRate = 3f;
-    public float SpawnRate = BaseSpawnRate;
+    public int EnemiesLeft = 0;
+    public int SpawnCount = 1;
+    public int MaxSpawnCount = 1;
 
+    void Start()
+    {
+
+    }
     void Update()
     {
-        if (SpawnRate > BaseSpawnRate)
+        if (EnemiesLeft <= 0)
         {
-            SpawnEnemy();
-            SpawnRate = 0f;
+            while (SpawnCount >= 0)
+            {
+                SpawnEnemy();
+                SetEnemiesLeft(1);
+                SpawnCount = SpawnCount - 1;
+            }
+            MaxSpawnCount++;
+            SpawnCount = MaxSpawnCount;
+
         }
-        else
-        {
-            SpawnRate = SpawnRate + Time.deltaTime;
-        }
+    }
+
+    public void SetEnemiesLeft(int EnemyCount)
+    {
+        EnemiesLeft = EnemiesLeft + EnemyCount;
     }
 
     public void SpawnEnemy()
