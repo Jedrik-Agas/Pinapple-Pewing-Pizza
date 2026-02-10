@@ -5,8 +5,8 @@ public class SpawnerScript : MonoBehaviour
     public GameObject EnemyPrefab;
     public float Radius = 1f;
     public int EnemiesLeft = 0;
-    public int SpawnCount = 1;
-    public int MaxSpawnCount = 1;
+    public int SpawnCount = 0;
+    public int MaxSpawnCount = 0;
 
     void Start()
     {

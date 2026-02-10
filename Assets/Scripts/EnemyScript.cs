@@ -11,11 +11,15 @@ public class EnemyScript : MonoBehaviour
     public Transform Target;
     public SpriteRenderer SpriteRenderer;
     public SpawnerScript Spawner;
+    private HitFlashScript HitFlash;
+    private ParticleSystem Particle;
 
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
-        Spawner= GameObject.FindAnyObjectByType<SpawnerScript>();
+        Particle = GetComponent<ParticleSystem>();
+        HitFlash = GetComponent<HitFlashScript>();
+        Spawner = GameObject.FindAnyObjectByType<SpawnerScript>();
 
         if (GameObject.FindGameObjectWithTag("Player"))
         {
@@ -45,11 +49,14 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
+            HitFlash.Flash();
+            //Particle.Play();
             SpriteRenderer.color = new Color(1f, 0.64f, 0f, 1f);
             Health = Health -1;
-            
+
             if (Health <= 0)
             {
+                Particle.Play();
                 Destroy(gameObject);
                 Spawner.SetEnemiesLeft(-1);
             }

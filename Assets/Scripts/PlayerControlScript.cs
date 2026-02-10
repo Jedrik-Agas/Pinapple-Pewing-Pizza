@@ -12,8 +12,11 @@ public class PlayerControlScript : MonoBehaviour
     public const int MaxHealth = 3;
     public int Health = MaxHealth;
     private Rigidbody2D RB;
+    private ParticleSystem Particle;
+    public SpriteRenderer SpriteRenderer;
     public WeaponScript Weapon;
     public HealthBarScript HealthBar;
+    private HitFlashScript HitFlash;
 
     private Vector2 MoveDirection;
     private Vector2 MouseDirection;
@@ -22,7 +25,10 @@ public class PlayerControlScript : MonoBehaviour
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        Particle = GetComponent<ParticleSystem>();
         HealthBar = GetComponentInChildren<HealthBarScript>();
+        HitFlash = GetComponent<HitFlashScript>();
         HealthBar.BarUpdate(Health);
     }
 
@@ -57,6 +63,8 @@ public class PlayerControlScript : MonoBehaviour
 
     public void SetHealth(int amount)
     {
+        HitFlash.Flash();
+        Particle.Play();
         Health += amount;
         HealthBar.BarUpdate(Health);
 
