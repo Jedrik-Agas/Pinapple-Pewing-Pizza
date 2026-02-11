@@ -3,15 +3,14 @@ using System.Collections;
 
 public class HitFlashScript : MonoBehaviour
 {
-    private Material OGMat;
-    [SerializeField] private Material NEWMat;
     private SpriteRenderer spriteRenderer;
+    private Color OriginalColor;
     private Coroutine FlashCoroutine;
     private float FlashDuration = 0.15f;
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        OGMat = spriteRenderer.material;
+        OriginalColor = spriteRenderer.color;
     }
 
     public void Flash()
@@ -25,8 +24,8 @@ public class HitFlashScript : MonoBehaviour
 
     private IEnumerator PlayFlash()
     {
-        spriteRenderer.material = NEWMat;
+        spriteRenderer.color = new Color(255f, 255f, 255f, 255);
         yield return new WaitForSeconds(FlashDuration);
-        spriteRenderer.material = OGMat;
+        spriteRenderer.color = OriginalColor;
     }
 }

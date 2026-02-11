@@ -1680,7 +1680,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.8302622, a: 1}
+  m_Color: {r: 0.9960785, g: 0, b: 0.82745105, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1780,7 +1780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f29da692ecb57a40bfb55bc6ec08310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlashScript
-  NEWMat: {fileID: 2100000, guid: 3b862bd133ac2f1478119fd4e663699f, type: 2}
 --- !u!199 &1075628467
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -1807,7 +1806,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3b862bd133ac2f1478119fd4e663699f, type: 2}
+  - {fileID: 2100000, guid: 88703e13746ce8c42beaaa7bc3577b5c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7285,7 +7284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2016333913

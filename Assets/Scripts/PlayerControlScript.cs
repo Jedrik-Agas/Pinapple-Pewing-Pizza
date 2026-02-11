@@ -17,6 +17,8 @@ public class PlayerControlScript : MonoBehaviour
     public WeaponScript Weapon;
     public HealthBarScript HealthBar;
     private HitFlashScript HitFlash;
+    private Coroutine ExplosionCorutine;
+    private bool CanPlay= true;
 
     private Vector2 MoveDirection;
     private Vector2 MouseDirection;
@@ -35,18 +37,23 @@ public class PlayerControlScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RB.linearVelocity = MoveDirection * MoveSpeed;
-        MouseDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
-        if (Input.GetMouseButton(0) && FireRate > 1f)
+        if(CanPlay == true)
         {
-            Weapon.Fire();
-            FireRate = BaseFireRate;
+            RB.linearVelocity = MoveDirection * MoveSpeed;
+            MouseDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (Input.GetMouseButton(0) && FireRate > 1f)
+            {
+                Weapon.Fire();
+                FireRate = BaseFireRate;
+            }
+            else
+            {
+                FireRate = FireRate + Time.deltaTime;
+            }
         }
-        else
-        {
-            FireRate = FireRate + Time.deltaTime;
-        }
+
     }
 
     private void FixedUpdate()
@@ -58,21 +65,31 @@ public class PlayerControlScript : MonoBehaviour
 
     public void OnMove(InputValue Value)
     {
-        MoveDirection = Value.Get<Vector2>().normalized;
+        if (CanPlay == true)
+        {
+            MoveDirection = Value.Get<Vector2>().normalized;
+        }
     }
 
     public void SetHealth(int amount)
     {
         HitFlash.Flash();
-        Particle.Play();
         Health += amount;
         HealthBar.BarUpdate(Health);
 
         if (Health <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            gameObject.SetActive(false);
+            CanPlay = false;
+            ExplosionCorutine = StartCoroutine(PlayExplosion());
         }
+    }
+
+    private IEnumerator PlayExplosion()
+    {
+        Particle.Play();
+        SpriteRenderer.enabled = false;
+        yield return new WaitForSeconds(Particle.main.duration);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }

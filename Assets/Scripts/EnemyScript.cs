@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -13,6 +13,8 @@ public class EnemyScript : MonoBehaviour
     public SpawnerScript Spawner;
     private HitFlashScript HitFlash;
     private ParticleSystem Particle;
+    private Coroutine ExplosionCorutine;
+    private bool CanDamage = true;
 
     void Start()
     {
@@ -34,7 +36,10 @@ public class EnemyScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RB.linearVelocity = transform.up * ESpeed;
+        if (CanDamage == true)
+        {
+            RB.linearVelocity = transform.up * ESpeed;
+        }
     }
 
     private void TurnToTarget()
@@ -50,23 +55,32 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet"))
         {
             HitFlash.Flash();
-            //Particle.Play();
-            SpriteRenderer.color = new Color(1f, 0.64f, 0f, 1f);
             Health = Health -1;
-
             if (Health <= 0)
             {
-                Particle.Play();
-                Destroy(gameObject);
-                Spawner.SetEnemiesLeft(-1);
+                CanDamage = false;
+                ExplosionCorutine = StartCoroutine(PlayExplosion());
             }
               
         }
         if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
-            other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
-            Spawner.SetEnemiesLeft(-1);
+            if (CanDamage == true)
+            {
+                Destroy(gameObject);
+                other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
+                Spawner.SetEnemiesLeft(-1);
+            }
         }
     }
+
+    private IEnumerator PlayExplosion()
+    {
+        Particle.Play();
+        SpriteRenderer.enabled = false;
+        yield return new WaitForSeconds(Particle.main.duration);
+        Destroy(gameObject);
+        Spawner.SetEnemiesLeft(-1);
+    }
+
 }
