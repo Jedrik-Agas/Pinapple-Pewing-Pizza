@@ -14,16 +14,15 @@ public class EnemyScript : MonoBehaviour
     private HitFlashScript HitFlash;
     public ScoreScript Score;
     private ParticleSystem Particle;
-    private AudioSource AudioSource;
     private Coroutine ExplosionCorutine;
     private bool CanDamage = true;
-
+    [SerializeField] private AudioSource AudioSource1;
+    [SerializeField] private AudioSource AudioSource2;
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
         Particle = GetComponent<ParticleSystem>();
         HitFlash = GetComponent<HitFlashScript>();
-        AudioSource = GetComponent<AudioSource>();
         Score = GameObject.FindGameObjectWithTag("UI").GetComponent<ScoreScript>();
         Spawner = GameObject.FindAnyObjectByType<SpawnerScript>();
 
@@ -60,6 +59,7 @@ public class EnemyScript : MonoBehaviour
         {
             HitFlash.Flash();
             Health = Health -1;
+            AudioSource2.Play();
             if (Health <= 0)
             {
                 CanDamage = false;
@@ -71,7 +71,7 @@ public class EnemyScript : MonoBehaviour
         {
             if (CanDamage == true)
             {
-                AudioSource.Play();
+                AudioSource1.Play();
                 Destroy(gameObject);
                 other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
                 Spawner.SetEnemiesLeft(-1);
@@ -83,7 +83,7 @@ public class EnemyScript : MonoBehaviour
     {
         Particle.Play();
         SpriteRenderer.enabled = false;
-        AudioSource.Play();
+        AudioSource1.Play();
         yield return new WaitForSeconds(Particle.main.duration);
         Score.AddScore(1);
         Destroy(gameObject);

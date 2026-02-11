@@ -13,13 +13,15 @@ public class PlayerControlScript : MonoBehaviour
     public int Health = MaxHealth;
     private Rigidbody2D RB;
     private ParticleSystem Particle;
-    private AudioSource AudioSource;
     public SpriteRenderer SpriteRenderer;
     public WeaponScript Weapon;
     public HealthBarScript HealthBar;
     private HitFlashScript HitFlash;
     private Coroutine ExplosionCorutine;
     private bool CanPlay= true;
+
+    [SerializeField] private AudioSource AudioSource1;
+    [SerializeField] private AudioSource AudioSource2;
 
     private Vector2 MoveDirection;
     private Vector2 MouseDirection;
@@ -30,7 +32,6 @@ public class PlayerControlScript : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         Particle = GetComponent<ParticleSystem>();
-        AudioSource = GetComponent<AudioSource>();
         HealthBar = GetComponentInChildren<HealthBarScript>();
         HitFlash = GetComponent<HitFlashScript>();
         HealthBar.BarUpdate(Health);
@@ -76,6 +77,7 @@ public class PlayerControlScript : MonoBehaviour
     public void SetHealth(int amount)
     {
         HitFlash.Flash();
+        AudioSource2.Play();
         Health += amount;
         HealthBar.BarUpdate(Health);
 
@@ -90,7 +92,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         Particle.Play();
         SpriteRenderer.enabled = false;
-        AudioSource.Play();
+        AudioSource1.Play();
         yield return new WaitForSeconds(Particle.main.duration);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

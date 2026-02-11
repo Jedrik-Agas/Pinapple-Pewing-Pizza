@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ScoreScript : MonoBehaviour
 {
-    public int Score;
+    public int Score = 0;
     public Text text;
     [ContextMenu("+Score")]
 
