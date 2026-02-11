@@ -13,6 +13,7 @@ public class PlayerControlScript : MonoBehaviour
     public int Health = MaxHealth;
     private Rigidbody2D RB;
     private ParticleSystem Particle;
+    private AudioSource AudioSource;
     public SpriteRenderer SpriteRenderer;
     public WeaponScript Weapon;
     public HealthBarScript HealthBar;
@@ -29,6 +30,7 @@ public class PlayerControlScript : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         Particle = GetComponent<ParticleSystem>();
+        AudioSource = GetComponent<AudioSource>();
         HealthBar = GetComponentInChildren<HealthBarScript>();
         HitFlash = GetComponent<HitFlashScript>();
         HealthBar.BarUpdate(Health);
@@ -88,6 +90,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         Particle.Play();
         SpriteRenderer.enabled = false;
+        AudioSource.Play();
         yield return new WaitForSeconds(Particle.main.duration);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

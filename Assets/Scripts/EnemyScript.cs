@@ -12,7 +12,9 @@ public class EnemyScript : MonoBehaviour
     public SpriteRenderer SpriteRenderer;
     public SpawnerScript Spawner;
     private HitFlashScript HitFlash;
+    public ScoreScript Score;
     private ParticleSystem Particle;
+    private AudioSource AudioSource;
     private Coroutine ExplosionCorutine;
     private bool CanDamage = true;
 
@@ -21,6 +23,8 @@ public class EnemyScript : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         Particle = GetComponent<ParticleSystem>();
         HitFlash = GetComponent<HitFlashScript>();
+        AudioSource = GetComponent<AudioSource>();
+        Score = GameObject.FindGameObjectWithTag("UI").GetComponent<ScoreScript>();
         Spawner = GameObject.FindAnyObjectByType<SpawnerScript>();
 
         if (GameObject.FindGameObjectWithTag("Player"))
@@ -67,6 +71,7 @@ public class EnemyScript : MonoBehaviour
         {
             if (CanDamage == true)
             {
+                AudioSource.Play();
                 Destroy(gameObject);
                 other.gameObject.GetComponent<PlayerControlScript>().SetHealth(Damage);
                 Spawner.SetEnemiesLeft(-1);
@@ -78,7 +83,9 @@ public class EnemyScript : MonoBehaviour
     {
         Particle.Play();
         SpriteRenderer.enabled = false;
+        AudioSource.Play();
         yield return new WaitForSeconds(Particle.main.duration);
+        Score.AddScore(1);
         Destroy(gameObject);
         Spawner.SetEnemiesLeft(-1);
     }
