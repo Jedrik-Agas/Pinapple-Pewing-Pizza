@@ -19,7 +19,7 @@ public class PlayerControlScript : MonoBehaviour
     private HitFlashScript HitFlash;
     private Coroutine ExplosionCorutine;
     private bool CanPlay= true;
-
+    [SerializeField] private LevelLoaderScript LevelLoader;
     [SerializeField] private AudioSource AudioSource1;
     [SerializeField] private AudioSource AudioSource2;
 
@@ -94,7 +94,7 @@ public class PlayerControlScript : MonoBehaviour
         SpriteRenderer.enabled = false;
         AudioSource1.Play();
         yield return new WaitForSeconds(Particle.main.duration);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LevelLoader.Nextevel();
     }
 
 }
